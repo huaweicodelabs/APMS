@@ -40,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
         CustomTrace customTrace = APMS.getInstance().createCustomTrace("CustomEvent1");
         customTrace.start();
         // code you want trace
-        BusinessLogicStart(customTrace);
-        BusinessLogicEnd(customTrace);
+        businessLogicStart(customTrace);
+        businessLogicEnd(customTrace);
         customTrace.stop();
     }
 
@@ -49,14 +49,14 @@ public class MainActivity extends AppCompatActivity {
         customEventHandle();
     }
 
-    public void BusinessLogicStart(CustomTrace customTrace) {
+    public void businessLogicStart(CustomTrace customTrace) {
         customTrace.putMeasure("ProcessingTimes", 0);
         for (int i = 0; i < 5; i++) {
             customTrace.incrementMeasure("ProcessingTimes", 1);
         }
     }
 
-    public void BusinessLogicEnd(CustomTrace customTrace) {
+    public void businessLogicEnd(CustomTrace customTrace) {
         customTrace.putProperty("ProcessingResult", "Success");
         customTrace.putProperty("Status", "Normal");
     }

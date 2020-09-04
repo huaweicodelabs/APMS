@@ -2,7 +2,7 @@
 buildscript {
     repositories {
         // 1. Add maven repository
-        maven { url 'http://developer.huawei.com/repo/' }
+        maven { url 'https://developer.huawei.com/repo/' }
         google()
         jcenter()
     }
@@ -22,7 +22,7 @@ buildscript {
 allprojects {
     repositories {
         // 4. Add maven repository for all projects
-        maven { url 'http://developer.huawei.com/repo/' }
+        maven { url 'https://developer.huawei.com/repo/' }
         google()
         jcenter()
     }
