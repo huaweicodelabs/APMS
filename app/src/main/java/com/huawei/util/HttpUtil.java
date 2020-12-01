@@ -65,20 +65,20 @@ public class HttpUtil {
                 bytesRecive = dealResponseBody(response.body());
                 response.body().close();
             }
-            networkMeasure.putProperty("TrasnmittedBytes", String.valueOf(bytesRecive));
+            networkMeasure.putProperty("传输字节", String.valueOf(bytesRecive));
             networkMeasure.stop();
         } catch (IOException e) {
             networkMeasure.setStatusCode(0);
             classErrorMessage(networkMeasure, e);
-            networkMeasure.putProperty("ErrorInformation", e.getMessage());
-            networkMeasure.putProperty("TrasnmittedBytes", String.valueOf(bytesRecive));
+            networkMeasure.putProperty("错误信息", e.getMessage());
+            networkMeasure.putProperty("传输字节", String.valueOf(bytesRecive));
             networkMeasure.stop();
         }
     }
 
     private static void classErrorMessage(NetworkMeasure networkMeasure, Exception e) {
         if (e instanceof UnknownHostException) {
-            networkMeasure.putProperty("ErrorInformation", "DNS resolution failed.");
+            networkMeasure.putProperty("错误信息", "DNS解析失败");
         }
     }
 
