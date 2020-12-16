@@ -11,6 +11,8 @@ import com.huawei.util.HttpUtil;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +20,7 @@ import android.widget.Button;
 
 
 public class MainActivity extends AppCompatActivity {
-
+    private boolean anrTestEnable = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,17 +29,19 @@ public class MainActivity extends AppCompatActivity {
         // Initialize button event
         initNetworkEventButton();
         initApmsSwitchButton();
+        initApmsAnrSwitchButton();
         initCustomEventButton();
+        initAnrTestButton();
     }
 
     // define custom event by annotation
-    @AddCustomTrace(name = "自定义事件2")
+    @AddCustomTrace(name = "CustomEvent2")
     public void customEventHandle() {
     }
 
     // define custom event by code
     public void sendCustomEvent() {
-        CustomTrace customTrace = APMS.getInstance().createCustomTrace("自定义事件1");
+        CustomTrace customTrace = APMS.getInstance().createCustomTrace("CustomEvent1");
         customTrace.start();
         // code you want trace
         businessLogicStart(customTrace);
@@ -50,17 +54,33 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void businessLogicStart(CustomTrace customTrace) {
-        customTrace.putMeasure("处理次数", 0);
+        customTrace.putMeasure("ProcessingTimes", 0);
         for (int i = 0; i < 5; i++) {
-            customTrace.incrementMeasure("处理次数", 1);
+            customTrace.incrementMeasure("ProcessingTimes", 1);
         }
     }
 
     public void businessLogicEnd(CustomTrace customTrace) {
-        customTrace.putProperty("处理结果", "成功");
-        customTrace.putProperty("状态", "正常");
+        customTrace.putProperty("ProcessingResult", "Success");
+        customTrace.putProperty("Status", "Normal");
     }
 
+    public void initApmsAnrSwitchButton() {
+        findViewById(R.id.enable_apms_anr_off).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("apmsAndroidDemo", "disable apms.");
+                APMS.getInstance().enableAnrMonitor(false);
+            }
+        });
+        findViewById(R.id.enable_apms_anr_on).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("apmsAndroidDemo", "enable apms.");
+                APMS.getInstance().enableAnrMonitor(true);
+            }
+        });
+    }
 
     public void initApmsSwitchButton() {
         findViewById(R.id.enable_apms_off).setOnClickListener(new View.OnClickListener() {
@@ -87,6 +107,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.d("apmsAndroidDemo", "send network request.");
                 HttpUtil.oneRequest();
+            }
+        });
+    }
+
+    public void initAnrTestButton() {
+        findViewById(R.id.anr_test).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("apmsAndroidDemo", "target anr");
+                anrTestEnable = true;
             }
         });
     }
@@ -140,5 +170,28 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+        @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (anrTestEnable) {
+            try {
+               Thread.sleep(20000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+           }
+        }
+        return super.dispatchKeyEvent(event);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (anrTestEnable) {
+            try {
+                Thread.sleep(20000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return super.dispatchTouchEvent(ev);
     }
 }
