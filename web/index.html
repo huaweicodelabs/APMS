@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>apmcodelab0411</title>
+    <script src="static/apm-agconnect.min.js"></script>
+    <script>
+      (function () {
+        // Step 2 Obtain the configuration information from AppGallery Connect and replace it with your own app settings.
+        const agConnectConfig =
+          {
+            // Paste your SDK Code Snippet
+          };
+        // Step 3 Set app configuration information and initialize the AppGallery Connect SDK.
+        agconnect.instance().configInstance(agConnectConfig)
+        // Step 4 (Optional) Enable or disable the function of collecting APM performance monitoring data. This function is enabled by default.
+        APM.enable(true)
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
