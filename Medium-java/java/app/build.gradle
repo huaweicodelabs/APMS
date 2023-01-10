@@ -38,7 +38,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.12.2'
 
     // Add APMS SDK library dependency
-    implementation 'com.huawei.agconnect:agconnect-apms:1.5.2.307'
+    implementation 'com.huawei.agconnect:agconnect-apms:1.6.1.303'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
